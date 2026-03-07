@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gamma Life Expansion | Centerpointe Research Institute</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep:    #080b14;
+    --bg-mid:     #0d1220;
+    --bg-card:    #111827;
+    --bg-card2:   #141c2e;
+
+    /* Jewel accent per soundtrack */
+    --sapphire:   #4a90d9;
+    --sapphire-g: #2563a8;
+    --emerald:    #2ecc8e;
+    --emerald-g:  #1a8f60;
+    --amber:      #f0b429;
+    --amber-g:    #b07d10;
+    --rose:       #e86a8a;
+    --rose-g:     #a0365a;
+
+    --gold:       #c9a84c;
+    --gold-light: #e8cc7a;
+    --white:      #ffffff;
+    --off-white:  #f0ece4;
+    --muted:      rgba(255,255,255,0.55);
+    --border:     rgba(255,255,255,0.08);
+    --border-mid: rgba(255,255,255,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg-deep);
+    color: var(--off-white);
+    font-size: 17px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .display {
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1.15;
+  }
+
+  /* ── UTILITIES ── */
+  .center { text-align: center; }
+  .wrap   { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+  .wrap-sm{ max-width: 680px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0;
+    opacity: 0.4;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    background: linear-gradient(90deg, #1a0a00, #2d1500, #1a0a00);
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    text-align: center;
+    padding: 11px 20px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--gold-light);
+    letter-spacing: 0.3px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    padding: 80px 24px 70px;
+    text-align: center;
+    overflow: hidden;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(74,144,217,0.15) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(240,180,41,0.08) 0%, transparent 60%),
+                var(--bg-deep);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234a90d9' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold-light);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 20px;
+    border-radius: 30px;
+    margin-bottom: 28px;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+    line-height: 1.1;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--sapphire), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-deck {
+    font-size: clamp(17px, 2.5vw, 21px);
+    color: var(--muted);
+    max-width: 620px;
+    margin: 16px auto 36px;
+    line-height: 1.65;
+  }
+
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px 28px;
+    padding: 18px 24px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border-mid);
+    border-radius: 12px;
+    max-width: 700px;
+    margin: 30px auto 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .trust-bar span { display: flex; align-items: center; gap: 7px; }
+
+  /* ── CTA BUTTON ── */
+  .cta-btn {
+    display: inline-block;
+    padding: 17px 44px;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.2px;
+  }
+
+  .cta-gold {
+    background: linear-gradient(135deg, #c9a84c, #e8cc7a, #c9a84c);
+    color: #1a0f00;
+    box-shadow: 0 8px 32px rgba(201,168,76,0.4);
+  }
+
+  .cta-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 44px rgba(201,168,76,0.55);
+  }
+
+  .cta-outline {
+    background: transparent;
+    border: 2px solid var(--gold);
+    color: var(--gold-light);
+  }
+
+  .cta-outline:hover {
+    background: rgba(201,168,76,0.1);
+    transform: translateY(-2px);
+  }
+
+  /* ── SECTION ── */
+  section { padding: 72px 0; }
+
+  .section-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(30px, 4.5vw, 48px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.18;
+    margin-bottom: 18px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  /* ── OPENING STORY ── */
+  .story-section {
+    background: var(--bg-mid);
+  }
+
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 52px;
+    align-items: start;
+  }
+
+  .story-body p {
+    font-size: 17px;
+    color: rgba(255,255,255,0.78);
+    margin-bottom: 18px;
+    line-height: 1.8;
+  }
+
+  .story-body p strong { color: var(--white); }
+
+  .story-pull {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-style: italic;
+    color: var(--gold-light);
+    border-left: 3px solid var(--gold);
+    padding-left: 22px;
+    margin: 32px 0;
+    line-height: 1.45;
+  }
+
+  .story-aside {
+    background: rgba(74,144,217,0.07);
+    border: 1px solid rgba(74,144,217,0.2);
+    border-radius: 16px;
+    padding: 28px 24px;
+    position: sticky;
+    top: 24px;
+  }
+
+  .story-aside-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--sapphire);
+    margin-bottom: 16px;
+  }
+
+  .aside-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    color: rgba(255,255,255,0.75);
+  }
+
+  .aside-check .ck { color: var(--sapphire); font-size: 16px; flex-shrink: 0; margin-top: 3px; }
+
+  /* ── SCIENCE STRIP ── */
+  .science-strip {
+    background: linear-gradient(135deg, rgba(74,144,217,0.1), rgba(46,204,142,0.06));
+    border-top: 1px solid rgba(74,144,217,0.2);
+    border-bottom: 1px solid rgba(74,144,217,0.2);
+  }
+
+  .science-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 28px;
+    margin-top: 40px;
+  }
+
+  .science-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px 22px;
+    text-align: center;
+  }
+
+  .science-card .sci-icon { font-size: 36px; margin-bottom: 12px; }
+  .science-card .sci-stat {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--sapphire);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .science-card p { font-size: 14px; color: var(--muted); line-height: 1.55; }
+
+  .science-claim {
+    background: rgba(74,144,217,0.08);
+    border: 1px solid rgba(74,144,217,0.2);
+    border-radius: 12px;
+    padding: 22px 28px;
+    margin-top: 32px;
+    text-align: center;
+    font-size: 17px;
+    color: rgba(255,255,255,0.85);
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+  }
+
+  /* ── SOUNDTRACKS ── */
+  .soundtracks-section { background: var(--bg-deep); }
+
+  .soundtrack-card {
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 28px;
+    border: 1px solid var(--border);
+    transition: box-shadow 0.3s;
+  }
+
+  .soundtrack-card:hover { box-shadow: 0 16px 60px rgba(0,0,0,0.4); }
+
+  .st-header {
+    padding: 32px 36px 28px;
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .st-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 0.9;
+    opacity: 0.25;
+    flex-shrink: 0;
+    width: 56px;
+    text-align: right;
+  }
+
+  .st-title-area { flex: 1; }
+  .st-label { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; opacity: 0.8; }
+  .st-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .st-tagline { font-size: 16px; opacity: 0.7; line-height: 1.5; }
+
+  .st-body {
+    padding: 0 36px 32px;
+  }
+
+  .st-description { font-size: 16px; color: rgba(255,255,255,0.75); margin-bottom: 22px; line-height: 1.75; }
+
+  .st-benefits {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+    margin-bottom: 24px;
+  }
+
+  .st-benefits li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-size: 15px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.5;
+  }
+
+  .st-benefits li .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .st-testimonial {
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin-bottom: 24px;
+  }
+
+  .st-testimonial .quote {
+    font-size: 15px;
+    font-style: italic;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.65;
+    margin-bottom: 12px;
+  }
+
+  .st-testimonial .attrib {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mini-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 15px; color: white;
+    flex-shrink: 0;
+  }
+
+  .attrib-name { font-weight: 600; font-size: 14px; color: white; }
+  .attrib-loc  { font-size: 12px; color: var(--muted); }
+  .stars-sm    { color: #f0b429; font-size: 12px; letter-spacing: 1px; }
+
+  /* Sapphire card */
+  .card-sapphire { background: linear-gradient(135deg, rgba(37,99,168,0.25) 0%, rgba(8,11,20,0.95) 50%); }
+  .card-sapphire .st-header { background: linear-gradient(135deg, rgba(37,99,168,0.4), rgba(37,99,168,0.1)); }
+  .card-sapphire .st-number { color: var(--sapphire); }
+  .card-sapphire .st-label  { color: var(--sapphire); }
+  .card-sapphire .dot       { background: var(--sapphire); }
+  .card-sapphire .st-testimonial { background: rgba(74,144,217,0.08); border: 1px solid rgba(74,144,217,0.2); }
+  .card-sapphire .mini-avatar { background: linear-gradient(135deg, var(--sapphire-g), var(--sapphire)); }
+
+  /* Emerald card */
+  .card-emerald { background: linear-gradient(135deg, rgba(26,143,96,0.25) 0%, rgba(8,11,20,0.95) 50%); }
+  .card-emerald .st-header { background: linear-gradient(135deg, rgba(26,143,96,0.4), rgba(26,143,96,0.1)); }
+  .card-emerald .st-number { color: var(--emerald); }
+  .card-emerald .st-label  { color: var(--emerald); }
+  .card-emerald .dot       { background: var(--emerald); }
+  .card-emerald .st-testimonial { background: rgba(46,204,142,0.08); border: 1px solid rgba(46,204,142,0.2); }
+  .card-emerald .mini-avatar { background: linear-gradient(135deg, var(--emerald-g), var(--emerald)); }
+
+  /* Amber card */
+  .card-amber { background: linear-gradient(135deg, rgba(176,125,16,0.25) 0%, rgba(8,11,20,0.95) 50%); }
+  .card-amber .st-header { background: linear-gradient(135deg, rgba(176,125,16,0.4), rgba(176,125,16,0.1)); }
+  .card-amber .st-number { color: var(--amber); }
+  .card-amber .st-label  { color: var(--amber); }
+  .card-amber .dot       { background: var(--amber); }
+  .card-amber .st-testimonial { background: rgba(240,180,41,0.08); border: 1px solid rgba(240,180,41,0.2); }
+  .card-amber .mini-avatar { background: linear-gradient(135deg, var(--amber-g), var(--amber)); }
+
+  /* Rose card */
+  .card-rose { background: linear-gradient(135deg, rgba(160,54,90,0.25) 0%, rgba(8,11,20,0.95) 50%); }
+  .card-rose .st-header { background: linear-gradient(135deg, rgba(160,54,90,0.4), rgba(160,54,90,0.1)); }
+  .card-rose .st-number { color: var(--rose); }
+  .card-rose .st-label  { color: var(--rose); }
+  .card-rose .dot       { background: var(--rose); }
+  .card-rose .st-testimonial { background: rgba(232,106,138,0.08); border: 1px solid rgba(232,106,138,0.2); }
+  .card-rose .mini-avatar { background: linear-gradient(135deg, var(--rose-g), var(--rose)); }
+
+  /* ── BONUS SECTION ── */
+  .bonus-section { background: var(--bg-mid); }
+
+  .bonus-card {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 16px;
+    padding: 30px 30px;
+    margin-top: 28px;
+  }
+
+  .bonus-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 10px;
+  }
+
+  .bonus-desc { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.65; }
+  .bonus-tag  {
+    display: inline-block;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold-light);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── GUARANTEE ── */
+  .guarantee-section { background: var(--bg-deep); }
+
+  .guarantee-box {
+    background: linear-gradient(135deg, rgba(46,125,50,0.15), rgba(27,94,32,0.08));
+    border: 1px solid rgba(67,160,71,0.3);
+    border-radius: 20px;
+    padding: 44px 40px;
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    margin-top: 28px;
+    box-shadow: 0 0 60px rgba(46,125,50,0.08);
+  }
+
+  .g-icon { font-size: 64px; flex-shrink: 0; line-height: 1; }
+
+  .g-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #81c784;
+    margin-bottom: 14px;
+  }
+
+  .g-content p { font-size: 16px; color: rgba(255,255,255,0.75); line-height: 1.75; margin-bottom: 14px; }
+
+  .g-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 18px;
+  }
+
+  .g-point {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #81c784;
+    background: rgba(46,125,50,0.15);
+    border: 1px solid rgba(67,160,71,0.25);
+    padding: 7px 16px;
+    border-radius: 30px;
+  }
+
+  /* ── PRICE SECTION ── */
+  .price-section {
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(201,168,76,0.1), transparent 70%),
+                var(--bg-mid);
+    text-align: center;
+  }
+
+  .comparison-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-mid);
+    border-radius: 16px;
+    padding: 32px;
+    margin: 32px 0;
+    text-align: left;
+  }
+
+  .comparison-box h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    color: var(--white);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .comp-table { width: 100%; border-collapse: collapse; }
+  .comp-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); font-size: 15px; color: rgba(255,255,255,0.75); }
+  .comp-table td:last-child { text-align: right; font-weight: 600; }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table .strike td:last-child { color: rgba(200,80,80,0.8); text-decoration: line-through; }
+  .comp-table .winner td { color: var(--gold-light); font-weight: 700; background: rgba(201,168,76,0.08); border-radius: 8px; }
+
+  .urgency-strip {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 12px;
+    padding: 18px 24px;
+    margin: 24px 0;
+    color: var(--gold-light);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .urgency-strip strong { display: block; font-size: 18px; margin-bottom: 5px; }
+
+  .price-card {
+    background: linear-gradient(160deg, #1a1f35, #0d1220);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 22px;
+    padding: 52px 40px;
+    text-align: center;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(201,168,76,0.2);
+    position: relative;
+    overflow: hidden;
+    margin: 28px 0;
+  }
+
+  .price-card::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%; transform: translateX(-50%);
+    width: 400px; height: 200px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.12), transparent 70%);
+    pointer-events: none;
+  }
+
+  .price-card-inner { position: relative; z-index: 1; }
+  .price-was { font-size: 15px; color: var(--muted); text-decoration: line-through; margin-bottom: 4px; }
+  .price-now {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 88px;
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1;
+    margin: 4px 0 8px;
+  }
+  .price-plan { font-size: 15px; color: var(--muted); margin-bottom: 32px; }
+
+  /* ── CLOSING ── */
+  .closing-section {
+    background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(74,144,217,0.1), transparent 70%),
+                var(--bg-deep);
+    text-align: center;
+  }
+
+  .closing-section p { font-size: 18px; color: var(--muted); max-width: 580px; margin: 0 auto 18px; line-height: 1.75; }
+
+  /* ── PS SECTION ── */
+  .ps-section {
+    background: var(--bg-mid);
+    border-top: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .ps-box {
+    background: rgba(255,255,255,0.03);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 12px 12px 0;
+    padding: 22px 28px;
+    margin-bottom: 16px;
+    font-size: 16px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.75;
+  }
+
+  .ps-box strong { color: var(--gold-light); }
+
+  .sig-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+
+  .sig-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--sapphire-g), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 26px; color: white;
+    box-shadow: 0 4px 20px rgba(74,144,217,0.3);
+    flex-shrink: 0;
+  }
+
+  .sig-name { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: var(--white); }
+  .sig-title { font-size: 14px; color: var(--muted); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #050709;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 24px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  footer a { color: rgba(255,255,255,0.45); text-decoration: underline; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .story-grid { grid-template-columns: 1fr; }
+    .story-aside { position: static; }
+    .st-header { flex-direction: column; gap: 12px; }
+    .st-number { font-size: 48px; }
+    .st-benefits { grid-template-columns: 1fr; }
+    .guarantee-box { flex-direction: column; }
+    .g-icon { font-size: 48px; }
+    .price-now { font-size: 64px; }
+    .sig-row { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  ⚡ Limited Time: Order Today &amp; Receive the Gamma Brain Experience Bonus Program — Included FREE
+</div>
+
+<!-- ══════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="wrap-sm center">
+    <div class="hero-eyebrow">
+      <span>🔬</span> Neuroscience-Backed · 35 Years of Research · 2.2M Lives Changed
+    </div>
+
+    <h1 class="display">
+      You're Not Burned Out.<br>
+      <em>Your Brain Is Running on Empty.</em>
+    </h1>
+
+    <p class="hero-deck">
+      The fog, the fatigue, the emotional flatness — it's not a personal failing.
+      It's your brain operating without the frequencies it needs to thrive.
+      Science has found the switch. We built the way to flip it.
+    </p>
+
+    <a href="#buy" class="cta-btn cta-gold">→ Unlock My Gamma Brain Today</a>
+    <p style="font-size:13px; color:var(--muted); margin-top:12px;">Or start for just $15 today with a payment plan</p>
+
+    <div class="trust-bar">
+      <span>🔒 Secure Checkout</span>
+      <span>🛡️ 365-Day Guarantee</span>
+      <span>👥 2.2 Million Users</span>
+      <span>⚡ Instant Digital Access</span>
+      <span>🎧 Works From Day One</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     OPENING STORY
+══════════════════════════════════════════════ -->
+<section class="story-section">
+  <div class="wrap">
+    <div class="section-label">A Letter to You</div>
+    <div class="story-grid">
+      <div class="story-body">
+        <p>Dear Friend,</p>
+        <p>Maybe you're holding it all together on the outside. You show up. You get things done. To everyone around you, you probably look just fine.</p>
+        <p>But underneath? <strong>Something's gone quiet.</strong> The spark that used to make you excited to get up in the morning. The clarity that let you think three steps ahead. The warmth that made your relationships feel alive.</p>
+        <p>You've probably tried things. You've rested. You've cut back on caffeine. You've told yourself to just push through. Maybe you've wondered if this is just what getting older feels like.</p>
+
+        <div class="story-pull">
+          "It's not age. It's not stress. It's not even your circumstances. It's your brain — operating without the frequencies it needs to perform."
+        </div>
+
+        <p>Here's what almost no one tells you: <strong>your brain has a specific electrical signature when it's thriving</strong> — a high-frequency state called Gamma. And most people today are barely producing it at all.</p>
+        <p>When Gamma is present, you feel it immediately. Things click. You're sharp, warm, creative, connected. You remember why you love your life.</p>
+        <p>When it's absent — which it is for most adults living under chronic stress — you get the fog. The fatigue. The quiet flatness that no amount of sleep seems to fix.</p>
+        <p><strong>The Gamma Life Expansion Collection was built for exactly this.</strong> Four precisely engineered audio soundtracks that guide your brain back to its natural high-performance state — in as little as 20 minutes a day.</p>
+      </div>
+
+      <div class="story-aside">
+        <div class="story-aside-title">Are any of these familiar?</div>
+        <div class="aside-check"><span class="ck">→</span> You wake up tired even after a full night's sleep</div>
+        <div class="aside-check"><span class="ck">→</span> You struggle to focus or finish what you start</div>
+        <div class="aside-check"><span class="ck">→</span> Emotions feel harder to manage than they used to</div>
+        <div class="aside-check"><span class="ck">→</span> You feel disconnected from people you love</div>
+        <div class="aside-check"><span class="ck">→</span> Creative inspiration feels like a distant memory</div>
+        <div class="aside-check"><span class="ck">→</span> You know what you should do — but can't make yourself do it</div>
+        <div style="margin-top:20px; padding-top:18px; border-top:1px solid var(--border); font-size:14px; color:var(--muted); font-style:italic; line-height:1.6;">
+          If you nodded at even two of these, your brain is almost certainly Gamma-deficient. The good news: it's fixable.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     SCIENCE STRIP
+══════════════════════════════════════════════ -->
+<section class="science-strip">
+  <div class="wrap center">
+    <div class="section-label">The Science of Gamma</div>
+    <h2 class="section-title">Why Gamma Frequencies <em>Change Everything</em></h2>
+    <p style="color:var(--muted); max-width:600px; margin:0 auto 0; font-size:16px;">
+      Gamma brainwaves (25–100 Hz) are the brain's highest-frequency state — associated with peak mental performance, deep compassion, and effortless creativity. Here's what decades of research shows:
+    </p>
+
+    <div class="science-grid">
+      <div class="science-card">
+        <div class="sci-icon">🧠</div>
+        <div class="sci-stat">40Hz</div>
+        <p>The precise Gamma frequency shown in studies to correlate with peak cognitive performance and heightened awareness</p>
+      </div>
+      <div class="science-card">
+        <div class="sci-icon">🧘</div>
+        <div class="sci-stat">700%</div>
+        <p>Higher Gamma activity measured in Tibetan monks during loving-kindness meditation vs. novice meditators</p>
+      </div>
+      <div class="science-card">
+        <div class="sci-icon">💡</div>
+        <div class="sci-stat">20min</div>
+        <p>Average listening time needed before users report measurable shifts in focus, clarity, and emotional balance</p>
+      </div>
+      <div class="science-card">
+        <div class="sci-icon">❤️</div>
+        <div class="sci-stat">35yrs</div>
+        <p>Of ongoing neuroscience research by Centerpointe into brainwave entrainment and its effects on wellbeing</p>
+      </div>
+    </div>
+
+    <div class="science-claim">
+      "Gamma isn't an advanced state reserved for monks and meditators. It's your brain's natural peak state — and Gamma Life Expansion gives you a direct path back to it."
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     SOUNDTRACKS
+══════════════════════════════════════════════ -->
+<section class="soundtracks-section">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:52px;">
+      <div class="section-label">The Collection</div>
+      <h2 class="section-title">Introducing the <em>Gamma Life Expansion</em> Suite</h2>
+      <p style="color:var(--muted); max-width:560px; margin:0 auto; font-size:16px;">
+        One complete collection. Four targeted soundtracks. Each one engineered for a specific dimension of your peak performance — and all four work together as a complete system.
+      </p>
+    </div>
+
+    <!-- SOUNDTRACK 1: CLARITY -->
+    <div class="soundtrack-card card-sapphire">
+      <div class="st-header">
+        <div class="st-number">01</div>
+        <div class="st-title-area">
+          <div class="st-label">Soundtrack #1</div>
+          <div class="st-name">Gamma Clarity</div>
+          <div class="st-tagline">A Holosync Soundtrack for Memory &amp; Focus</div>
+        </div>
+      </div>
+      <div class="st-body">
+        <p class="st-description">
+          Gamma Clarity uses 40Hz entrainment tones layered beneath a soothing soundscape to guide your brain into its sharpest, most focused state. Think of it as a reset button for mental fog — the kind of clarity where tasks flow easily, words come readily, and you finally feel like yourself again.
+        </p>
+        <ul class="st-benefits">
+          <li><span class="dot"></span>Finally finish what you start with sustained, effortless focus</li>
+          <li><span class="dot"></span>Recall names, details, and ideas with ease</li>
+          <li><span class="dot"></span>Cut through decision fatigue and think clearly under pressure</li>
+          <li><span class="dot"></span>Enter deep work states without forcing or struggling</li>
+          <li><span class="dot"></span>Feel mentally sharp from morning through evening</li>
+          <li><span class="dot"></span>Reduce the mental "noise" that kills concentration</li>
+        </ul>
+        <div class="st-testimonial">
+          <div class="stars-sm">★★★★★</div>
+          <p class="quote">"I'm a writer and I'd lost my ability to sit down and just... produce. Within two weeks of using Gamma Clarity every morning, I wrote more than I had in the previous three months combined. The fog just lifted."</p>
+          <div class="attrib">
+            <div class="mini-avatar">S</div>
+            <div>
+              <div class="attrib-name">Sarah M.</div>
+              <div class="attrib-loc">Boston, MA · Freelance Writer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOUNDTRACK 2: CONNECTION -->
+    <div class="soundtrack-card card-emerald">
+      <div class="st-header">
+        <div class="st-number">02</div>
+        <div class="st-title-area">
+          <div class="st-label">Soundtrack #2</div>
+          <div class="st-name">Gamma Connection</div>
+          <div class="st-tagline">A Holosync Soundtrack for Emotional Healing &amp; Belonging</div>
+        </div>
+      </div>
+      <div class="st-body">
+        <p class="st-description">
+          Gamma Connection is rooted in the neuroscience of compassion — specifically the Metta Bhavana (loving-kindness) research showing that Gamma activity surges when we feel deep human connection. This soundtrack guides your brain into that same state, softening emotional walls and opening the heart in ways that feel both immediate and lasting.
+        </p>
+        <ul class="st-benefits">
+          <li><span class="dot"></span>Feel genuinely close to the people who matter most</li>
+          <li><span class="dot"></span>Release resentment, guardedness, and emotional isolation</li>
+          <li><span class="dot"></span>Experience warmth and compassion — for others and yourself</li>
+          <li><span class="dot"></span>Communicate with more patience, presence, and empathy</li>
+          <li><span class="dot"></span>Reduce social anxiety and feel at ease in relationships</li>
+          <li><span class="dot"></span>Reconnect with the joy and meaning in everyday moments</li>
+        </ul>
+        <div class="st-testimonial">
+          <p class="quote">"I'd become emotionally numb — I didn't even realize how disconnected I'd gotten from my family. After a month with Gamma Connection, my wife told me I seemed 'back.' She was right. I felt it too."</p>
+          <div class="attrib">
+            <div class="mini-avatar">T</div>
+            <div>
+              <div class="attrib-name">Thomas R.</div>
+              <div class="attrib-loc">Minneapolis, MN · Business Owner</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOUNDTRACK 3: GENIUS -->
+    <div class="soundtrack-card card-amber">
+      <div class="st-header">
+        <div class="st-number">03</div>
+        <div class="st-title-area">
+          <div class="st-label">Soundtrack #3</div>
+          <div class="st-name">Gamma Genius</div>
+          <div class="st-tagline">A Holosync Soundtrack for Creativity &amp; Innovation</div>
+        </div>
+      </div>
+      <div class="st-body">
+        <p class="st-description">
+          Creative breakthroughs don't happen by force — they happen when the brain is in the right state. Gamma Genius combines Gamma entrainment with specially sequenced alpha and theta bridges to unlock the spontaneous, associative thinking that's the hallmark of genuine creative intelligence.
+        </p>
+        <ul class="st-benefits">
+          <li><span class="dot"></span>Access insights and ideas that seem to come from nowhere</li>
+          <li><span class="dot"></span>Solve problems you've been stuck on — suddenly and naturally</li>
+          <li><span class="dot"></span>Think beyond the obvious to truly original solutions</li>
+          <li><span class="dot"></span>Reignite the curiosity and wonder you had as a child</li>
+          <li><span class="dot"></span>Enter flow states that make work feel like play</li>
+          <li><span class="dot"></span>Let go of overthinking and trust your instincts</li>
+        </ul>
+        <div class="st-testimonial">
+          <p class="quote">"I'm a product designer and had been creatively blocked for months. I listened to Gamma Genius before a brainstorming session and came up with more viable concepts in 90 minutes than I had in weeks. It's become a non-negotiable part of my creative process."</p>
+          <div class="attrib">
+            <div class="mini-avatar">A</div>
+            <div>
+              <div class="attrib-name">Alicia P.</div>
+              <div class="attrib-loc">San Francisco, CA · Product Designer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOUNDTRACK 4: HEART -->
+    <div class="soundtrack-card card-rose">
+      <div class="st-header">
+        <div class="st-number">04</div>
+        <div class="st-title-area">
+          <div class="st-label">Soundtrack #4</div>
+          <div class="st-name">Gamma Heart</div>
+          <div class="st-tagline">A Holosync Soundtrack for Deep Gratitude &amp; Inner Peace</div>
+        </div>
+      </div>
+      <div class="st-body">
+        <p class="st-description">
+          Gamma Heart addresses the deepest layer — the relationship you have with your own life. Using the same Gamma frequencies found in advanced meditators during states of profound gratitude and acceptance, this soundtrack gently dissolves chronic negativity, comparison, and low-grade anxiety, replacing it with a stable foundation of inner peace.
+        </p>
+        <ul class="st-benefits">
+          <li><span class="dot"></span>Experience genuine gratitude — not forced affirmations, but felt truth</li>
+          <li><span class="dot"></span>Release the chronic low-grade anxiety that hums beneath everything</li>
+          <li><span class="dot"></span>Stop comparing your life to others and find contentment here</li>
+          <li><span class="dot"></span>Sleep more deeply and wake with a sense of natural optimism</li>
+          <li><span class="dot"></span>Feel settled, grounded, and at peace with where you are</li>
+          <li><span class="dot"></span>Build an unshakeable foundation of emotional resilience</li>
+        </ul>
+        <div class="st-testimonial">
+          <p class="quote">"I've struggled with low-grade anxiety my whole adult life. Not panic attacks — just that constant underlying hum of 'something is wrong.' Gamma Heart has quieted that hum in a way nothing else has. I feel settled for the first time in years."</p>
+          <div class="attrib">
+            <div class="mini-avatar">L</div>
+            <div>
+              <div class="attrib-name">Lauren K.</div>
+              <div class="attrib-loc">Atlanta, GA · Teacher</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     BONUS
+══════════════════════════════════════════════ -->
+<section class="bonus-section">
+  <div class="wrap">
+    <div class="section-label">Included Free</div>
+    <h2 class="section-title">Plus Your <em>Bonus Program</em></h2>
+    <p style="color:var(--muted); font-size:16px; margin-bottom:8px;">Order today and receive the following bonus — included at no extra charge:</p>
+
+    <div class="bonus-card">
+      <div style="display:flex; align-items:flex-start; gap:20px; flex-wrap:wrap;">
+        <div style="font-size:48px; flex-shrink:0;">🎬</div>
+        <div style="flex:1;">
+          <div class="bonus-title">The Gamma Brain Experience: 3-Day Optimization Program</div>
+          <p class="bonus-desc">
+            A guided 3-day video program that shows you exactly how to use all four Gamma soundtracks for maximum results — including the optimal listening schedule, how to combine tracks for specific goals, and how to deepen the effects over time. This program is the fastest path to experiencing everything Gamma Life Expansion has to offer.
+          </p>
+          <span class="bonus-tag">🎁 Included FREE with your order today</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     GUARANTEE
+══════════════════════════════════════════════ -->
+<section class="guarantee-section">
+  <div class="wrap">
+    <div class="section-label center">Zero Risk</div>
+    <h2 class="section-title center">Our 365-Day <em>Better-Than-Risk-Free</em> Guarantee</h2>
+
+    <div class="guarantee-box">
+      <div class="g-icon">🛡️</div>
+      <div class="g-content">
+        <h3>You Have an Entire Year to Decide</h3>
+        <p>Try every soundtrack. Use them daily. Put them through their paces in the real conditions of your real life. And if after 365 days you haven't experienced a meaningful transformation in your focus, emotional balance, creativity, or sense of inner peace...</p>
+        <p>Simply contact us for a complete, prompt refund. <strong style="color:#81c784;">No questions. No forms to fill out. No justification required.</strong> And you keep every piece of the program as our gift — because we believe you'll have gotten value from it regardless.</p>
+        <p>We can make this offer because after 35 years and 2.2 million users, we know exactly what Gamma does to a brain that's ready for it. The only question is whether you're ready to find out.</p>
+        <div class="g-points">
+          <span class="g-point">✓ Full 365 days</span>
+          <span class="g-point">✓ No questions asked</span>
+          <span class="g-point">✓ Keep everything</span>
+          <span class="g-point">✓ Instant refund</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     PRICE
+══════════════════════════════════════════════ -->
+<section id="buy" class="price-section">
+  <div class="wrap-sm center">
+    <div class="section-label">Your Investment</div>
+    <h2 class="section-title">Everything You Need. <em>One Simple Price.</em></h2>
+
+    <div class="comparison-box">
+      <h3>Put It in Perspective</h3>
+      <table class="comp-table">
+        <tr class="strike"><td>A single session with a therapist or coach</td><td>$150–$300</td></tr>
+        <tr class="strike"><td>Annual subscription to a meditation app</td><td>$99–$130/yr</td></tr>
+        <tr class="strike"><td>A weekend wellness or mindfulness retreat</td><td>$500–$2,000</td></tr>
+        <tr class="strike"><td>Nootropic supplements for 3 months</td><td>$150–$400</td></tr>
+        <tr class="winner"><td><strong>All 4 Gamma Soundtracks + Bonus Program + 365-Day Guarantee</strong></td><td>Only $99</td></tr>
+      </table>
+    </div>
+
+    <div class="urgency-strip">
+      <strong>⏰ Every Day in Gamma Deficit Is a Day You Don't Get Back</strong>
+      The fog, the flatness, the disconnection — none of it is permanent. But it doesn't resolve on its own. The brain needs the right input to shift. Today is the best day to give it that.
+    </div>
+
+    <div class="price-card">
+      <div class="price-card-inner">
+        <div class="price-was">Everything included — a $400+ value</div>
+        <div class="price-now">$99</div>
+        <div class="price-plan">Or start for just $15 today with our easy payment plan</div>
+        <a href="#" class="cta-btn cta-gold" style="font-size:20px; padding:20px 52px;">→ Yes! Unlock My Gamma Brain Today</a>
+        <p style="font-size:13px; color:var(--muted); margin-top:14px;">🔒 Secure Order &nbsp;·&nbsp; Instant Access &nbsp;·&nbsp; 365-Day Money-Back Guarantee</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     CLOSING
+══════════════════════════════════════════════ -->
+<section class="closing-section">
+  <div class="wrap-sm center">
+    <div class="section-label">The Choice Ahead</div>
+    <h2 class="section-title">The Brain You Want <em>Is Already in There</em></h2>
+    <p>The focus, the warmth, the creativity, the peace — they aren't things you've lost. They're things your brain hasn't had the right conditions to produce.</p>
+    <p>Gamma Life Expansion creates those conditions. In 20 minutes a day, with a pair of headphones.</p>
+    <p>Join the 2.2 million people who've discovered that the life they wanted was always one brainwave state away.</p>
+    <a href="#buy" class="cta-btn cta-gold" style="font-size:20px; padding:20px 52px; margin-top:8px;">→ Yes! Unlock My Gamma Brain Today</a>
+    <p style="font-size:13px; color:var(--muted); margin-top:14px;">Or start for just $15 · 365-Day Guarantee · Instant Access</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════
+     SIGNATURE + PS
+══════════════════════════════════════════════ -->
+<section class="ps-section">
+  <div class="wrap">
+    <div class="sig-row">
+      <div class="sig-avatar">MT</div>
+      <div>
+        <div class="sig-name">MaryEllen Tribby</div>
+        <div class="sig-title">CEO, Centerpointe Research Institute</div>
+      </div>
+    </div>
+
+    <div style="margin-top:36px;">
+      <div class="ps-box">
+        <strong>P.S.</strong> — Can't do the full $99 right now? That's completely fine. You can get started for just <strong>$15 today</strong> and continue with easy monthly payments. Don't let budget stand between you and a brain that finally works the way you know it can.
+      </div>
+      <div class="ps-box">
+        <strong>P.P.S.</strong> — Remember: you have 365 days to experience Gamma Life Expansion with zero risk. If it doesn't transform your focus, your emotional life, your creativity, and your sense of peace — you pay nothing. You keep everything. The only thing you have to lose is the fog. <em>Isn't that exactly what you want to lose?</em>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>©2025 <a href="#">Centerpointe Research Institute</a> &nbsp;·&nbsp; <a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms of Use</a></p>
+</footer>
+
+</body>
+</html>

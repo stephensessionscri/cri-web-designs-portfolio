@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Epsilon Edge | Holosync® Deep Brain Expansion Suite</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #1a1a2a;
+    --ink-mid:    #3a3a4a;
+    --ink-muted:  #6a6a7a;
+    --bg:         #ffffff;
+    --bg-off:     #f9f8f6;
+    --bg-warm:    #f5f2ed;
+    --bg-deep:    #f0ece4;
+
+    --epsilon:    #4a2080;   /* deep violet — Epsilon's signature color */
+    --epsilon-mid:#6a3aaa;
+    --epsilon-lt: #9b6fd4;
+    --epsilon-bg: #f5f0ff;
+    --epsilon-bd: #d8c8f5;
+
+    --gold:       #a07830;
+    --gold-lt:    #c8a050;
+    --gold-bg:    #fdf8ee;
+    --gold-bd:    #e8d090;
+
+    --red:        #c0392b;
+    --green:      #2e7d32;
+    --green-lt:   #43a047;
+    --green-bg:   #f1f8e9;
+
+    --border:     #e0dbd0;
+    --border-mid: #ccc5b5;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  .serif { font-family: 'Libre Baskerville', serif; }
+
+  /* ── LAYOUT ── */
+  .wrap    { max-width: 860px; margin: 0 auto; padding: 0 28px; }
+  .wrap-sm { max-width: 680px; margin: 0 auto; padding: 0 28px; }
+  .center  { text-align: center; }
+
+  /* ── DIVIDERS ── */
+  .rule-gold {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold-lt), transparent);
+    border: none;
+    margin: 0;
+  }
+
+  .rule-violet {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--epsilon-mid), transparent);
+    border: none;
+    margin: 0;
+  }
+
+  .rule-thin {
+    height: 1px;
+    background: var(--border);
+    border: none;
+    margin: 0;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    background: var(--ink);
+    color: #e8d090;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(180deg, #fdfcfa 0%, #f5f2ed 100%);
+    padding: 64px 28px 56px;
+    text-align: center;
+    border-bottom: 2px solid var(--border);
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    background: var(--epsilon-bg);
+    border: 1px solid var(--epsilon-bd);
+    color: var(--epsilon);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 7px 20px;
+    border-radius: 30px;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(34px, 5.5vw, 58px);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.12;
+    margin-bottom: 10px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--epsilon);
+  }
+
+  .hero-sub {
+    font-size: clamp(17px, 2.5vw, 20px);
+    color: var(--ink-mid);
+    max-width: 580px;
+    margin: 14px auto 36px;
+    line-height: 1.65;
+  }
+
+  /* ── STOP DEVICE ── */
+  .stop-device {
+    background: #fff8f7;
+    border: 3px solid var(--red);
+    border-radius: 18px;
+    padding: 32px 36px;
+    max-width: 680px;
+    margin: 0 auto 40px;
+    text-align: center;
+    box-shadow: 0 4px 30px rgba(192,57,43,0.12);
+  }
+
+  .stop-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+    box-shadow: 0 6px 24px rgba(192,57,43,0.3);
+  }
+
+  .stop-icon span { color: white; font-size: 36px; font-weight: 900; letter-spacing: -2px; }
+
+  .stop-device h2 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--red);
+    margin-bottom: 10px;
+  }
+
+  .stop-device p {
+    font-size: 16px;
+    color: var(--ink-mid);
+    line-height: 1.65;
+    margin-bottom: 10px;
+  }
+
+  .stop-device p:last-child { margin-bottom: 0; }
+
+  .stop-qualifiers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    justify-content: center;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #f0d0cc;
+  }
+
+  .stop-q {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-mid);
+  }
+
+  .stop-q .check { color: var(--green); font-size: 16px; }
+
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 24px;
+    padding: 16px 24px;
+    background: var(--epsilon-bg);
+    border: 1px solid var(--epsilon-bd);
+    border-radius: 10px;
+    max-width: 680px;
+    margin: 0 auto;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--epsilon);
+  }
+
+  .trust-bar span { display: flex; align-items: center; gap: 6px; }
+
+  /* ── CTA BUTTON ── */
+  .cta-btn {
+    display: inline-block;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    padding: 17px 44px;
+    border-radius: 50px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.2px;
+  }
+
+  .cta-violet {
+    background: linear-gradient(135deg, var(--epsilon), var(--epsilon-mid));
+    color: white;
+    box-shadow: 0 8px 28px rgba(74,32,128,0.35);
+  }
+
+  .cta-violet:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 38px rgba(74,32,128,0.48);
+  }
+
+  .cta-gold {
+    background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+    color: white;
+    box-shadow: 0 8px 28px rgba(160,120,48,0.35);
+  }
+
+  .cta-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 38px rgba(160,120,48,0.48);
+  }
+
+  /* ── SECTION LABELS ── */
+  .section-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--epsilon-mid);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 18px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--epsilon);
+  }
+
+  section { padding: 68px 0; }
+
+  /* ── OPENING LETTER ── */
+  .letter-section { background: var(--bg-off); }
+
+  .letter-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 52px;
+    align-items: start;
+  }
+
+  .letter-body p {
+    font-size: 17px;
+    color: var(--ink-mid);
+    margin-bottom: 18px;
+    line-height: 1.8;
+  }
+
+  .letter-body p strong { color: var(--ink); }
+
+  .pull-quote {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--epsilon);
+    border-left: 3px solid var(--epsilon-mid);
+    padding: 14px 0 14px 24px;
+    margin: 28px 0;
+    line-height: 1.5;
+  }
+
+  .letter-aside {
+    background: var(--bg-warm);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px 22px;
+    position: sticky;
+    top: 20px;
+  }
+
+  .aside-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--epsilon);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .aside-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: var(--ink-mid);
+    line-height: 1.55;
+  }
+
+  .aside-item .icon { color: var(--epsilon-mid); flex-shrink: 0; margin-top: 2px; font-size: 15px; }
+
+  /* ── EPSILON SCIENCE ── */
+  .science-section { background: var(--bg-warm); }
+
+  .science-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 36px 0;
+  }
+
+  .sci-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px 20px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+
+  .sci-icon { font-size: 32px; margin-bottom: 10px; }
+
+  .sci-stat {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--epsilon);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .sci-desc { font-size: 13px; color: var(--ink-muted); line-height: 1.55; }
+
+  .tech-box {
+    background: var(--epsilon-bg);
+    border: 1px solid var(--epsilon-bd);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-top: 12px;
+  }
+
+  .tech-box h3 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--epsilon);
+    margin-bottom: 10px;
+  }
+
+  .tech-box p { font-size: 15px; color: var(--ink-mid); line-height: 1.7; }
+
+  /* ── WARNING BLOCK ── */
+  .warning-section { background: var(--bg-deep); }
+
+  .warning-box {
+    background: #fffbf0;
+    border: 2px solid #e8c040;
+    border-radius: 16px;
+    padding: 32px 36px;
+    max-width: 680px;
+    margin: 28px auto 0;
+  }
+
+  .warning-box h3 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #8a6000;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .warning-list { list-style: none; padding: 0; }
+
+  .warning-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 15px;
+    color: var(--ink-mid);
+    padding: 8px 0;
+    border-bottom: 1px solid #f0e090;
+    line-height: 1.55;
+  }
+
+  .warning-list li:last-child { border-bottom: none; }
+  .warning-list .wi { color: #c07800; flex-shrink: 0; margin-top: 3px; }
+
+  .warning-reassure {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #f0e090;
+    font-size: 14px;
+    color: #6a5000;
+    font-style: italic;
+    line-height: 1.65;
+  }
+
+  /* ── TRACKS ── */
+  .tracks-section { background: var(--bg); }
+
+  .track-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+
+  .track-card:hover {
+    box-shadow: 0 8px 40px rgba(74,32,128,0.12);
+    transform: translateY(-2px);
+  }
+
+  .track-header {
+    background: linear-gradient(135deg, var(--epsilon-bg), #ede0ff);
+    border-bottom: 1px solid var(--epsilon-bd);
+    padding: 28px 32px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .track-num {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--epsilon-lt);
+    opacity: 0.4;
+    line-height: 0.9;
+    flex-shrink: 0;
+    width: 50px;
+    text-align: right;
+  }
+
+  .track-label { font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--epsilon-mid); margin-bottom: 5px; }
+
+  .track-name {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(22px, 3.5vw, 30px);
+    font-weight: 700;
+    color: var(--epsilon);
+    margin-bottom: 5px;
+    line-height: 1.15;
+  }
+
+  .track-tagline { font-size: 15px; color: var(--ink-mid); font-style: italic; }
+  .track-duration {
+    margin-left: auto;
+    background: var(--epsilon);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 13px;
+    border-radius: 20px;
+    white-space: nowrap;
+    align-self: flex-start;
+    flex-shrink: 0;
+  }
+
+  .track-body { padding: 28px 32px 32px; }
+
+  .track-desc {
+    font-size: 16px;
+    color: var(--ink-mid);
+    margin-bottom: 22px;
+    line-height: 1.78;
+  }
+
+  .tech-callout {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--epsilon-bg);
+    border: 1px solid var(--epsilon-bd);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--epsilon);
+    margin-bottom: 20px;
+  }
+
+  .track-benefits {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+    margin-bottom: 24px;
+  }
+
+  .track-benefits li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-size: 15px;
+    color: var(--ink-mid);
+    line-height: 1.5;
+  }
+
+  .track-benefits li .dot {
+    width: 8px; height: 8px;
+    background: var(--epsilon-mid);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .track-testimonial {
+    background: var(--bg-off);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin-top: 6px;
+  }
+
+  .stars { color: #e8a020; font-size: 14px; letter-spacing: 2px; margin-bottom: 8px; }
+
+  .t-quote {
+    font-size: 15px;
+    font-style: italic;
+    color: var(--ink-mid);
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+
+  .t-attrib { display: flex; align-items: center; gap: 10px; }
+
+  .t-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--epsilon), var(--epsilon-mid));
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .t-name { font-weight: 700; font-size: 14px; color: var(--ink); }
+  .t-loc  { font-size: 12px; color: var(--ink-muted); }
+
+  /* ── WHY DIFFERENT ── */
+  .different-section { background: var(--bg-warm); }
+
+  .diff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 32px;
+  }
+
+  .diff-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 22px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: box-shadow 0.2s;
+  }
+
+  .diff-card:hover { box-shadow: 0 4px 20px rgba(74,32,128,0.08); }
+
+  .diff-icon {
+    width: 44px; height: 44px;
+    background: var(--epsilon-bg);
+    border: 1px solid var(--epsilon-bd);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .diff-title { font-weight: 700; font-size: 15px; color: var(--ink); margin-bottom: 5px; }
+  .diff-desc  { font-size: 14px; color: var(--ink-muted); line-height: 1.55; }
+
+  /* ── WHO IS THIS FOR ── */
+  .who-section { background: var(--bg-off); }
+
+  .who-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 32px;
+  }
+
+  .who-col { }
+
+  .who-col-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .who-col.yes .who-col-title { color: var(--green); border-color: var(--green); }
+  .who-col.no  .who-col-title { color: var(--red);   border-color: var(--red); }
+
+  .who-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    color: var(--ink-mid);
+    line-height: 1.5;
+  }
+
+  .who-item .wi { flex-shrink: 0; margin-top: 3px; font-size: 16px; }
+  .who-col.yes .wi { color: var(--green); }
+  .who-col.no  .wi { color: var(--red); }
+
+  /* ── GUARANTEE ── */
+  .guarantee-section { background: var(--bg); }
+
+  .g-box {
+    background: var(--green-bg);
+    border: 2px solid var(--green-lt);
+    border-radius: 20px;
+    padding: 40px 36px;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    box-shadow: 0 4px 24px rgba(46,125,50,0.1);
+    margin-top: 28px;
+  }
+
+  .g-icon { font-size: 58px; flex-shrink: 0; line-height: 1; }
+
+  .g-content h3 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 12px;
+  }
+
+  .g-content p { font-size: 16px; color: var(--ink-mid); line-height: 1.75; margin-bottom: 14px; }
+
+  .g-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+
+  .g-pill {
+    background: white;
+    border: 1px solid var(--green-lt);
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 30px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* ── PRICE ── */
+  .price-section {
+    background: var(--bg-warm);
+    text-align: center;
+  }
+
+  .comp-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px 32px;
+    margin: 28px auto;
+    max-width: 620px;
+    text-align: left;
+  }
+
+  .comp-box h3 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 20px;
+    color: var(--ink);
+    margin-bottom: 18px;
+    text-align: center;
+  }
+
+  .comp-table { width: 100%; border-collapse: collapse; }
+  .comp-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 15px; color: var(--ink-mid); }
+  .comp-table td:last-child { text-align: right; font-weight: 700; }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table .crossed td:last-child { color: #c0392b; text-decoration: line-through; }
+  .comp-table .winner td { background: #f5f0ff; color: var(--epsilon); font-weight: 800; }
+
+  .urgency-box {
+    background: var(--gold-bg);
+    border: 1px solid var(--gold-bd);
+    border-radius: 12px;
+    padding: 18px 26px;
+    max-width: 620px;
+    margin: 0 auto 24px;
+    font-size: 16px;
+    color: #6a4800;
+    line-height: 1.6;
+  }
+
+  .urgency-box strong { display: block; font-size: 17px; margin-bottom: 5px; }
+
+  .price-card {
+    background: linear-gradient(160deg, var(--epsilon-bg), #ede8ff);
+    border: 2px solid var(--epsilon-bd);
+    border-radius: 22px;
+    padding: 52px 40px;
+    max-width: 580px;
+    margin: 0 auto 28px;
+    box-shadow: 0 12px 50px rgba(74,32,128,0.12);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .price-card::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%; transform: translateX(-50%);
+    width: 400px; height: 200px;
+    background: radial-gradient(ellipse, rgba(74,32,128,0.08), transparent 70%);
+    pointer-events: none;
+  }
+
+  .price-inner { position: relative; z-index: 1; }
+
+  .price-ladder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+
+  .price-cross {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 28px;
+    color: var(--ink-muted);
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+
+  .price-arrow { color: var(--ink-muted); font-size: 18px; }
+
+  .price-now {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 88px;
+    font-weight: 700;
+    color: var(--epsilon);
+    line-height: 1;
+    margin: 4px 0 10px;
+  }
+
+  .price-sub { font-size: 15px; color: var(--ink-muted); margin-bottom: 30px; }
+
+  /* ── CLOSING ── */
+  .closing-section { background: var(--bg); text-align: center; }
+
+  .closing-section p {
+    font-size: 18px;
+    color: var(--ink-mid);
+    max-width: 560px;
+    margin: 0 auto 18px;
+    line-height: 1.75;
+  }
+
+  /* ── PS ── */
+  .ps-section {
+    background: var(--bg-off);
+    border-top: 2px solid var(--border);
+  }
+
+  .ps-box {
+    background: var(--bg);
+    border-left: 4px solid var(--epsilon-mid);
+    border-radius: 0 12px 12px 0;
+    padding: 20px 26px;
+    margin-bottom: 16px;
+    font-size: 16px;
+    color: var(--ink-mid);
+    line-height: 1.75;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  }
+
+  .ps-box strong { color: var(--epsilon); }
+
+  .sig-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+
+  .sig-avatar {
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--epsilon), var(--epsilon-mid));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 24px; color: white;
+    box-shadow: 0 4px 18px rgba(74,32,128,0.3);
+    flex-shrink: 0;
+  }
+
+  .sig-name  { font-family: 'Libre Baskerville', serif; font-size: 22px; font-weight: 700; color: var(--ink); }
+  .sig-title { font-size: 14px; color: var(--ink-muted); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 22px;
+    font-size: 13px;
+  }
+
+  footer a { color: rgba(255,255,255,0.55); text-decoration: underline; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 680px) {
+    .letter-grid, .who-grid, .diff-grid { grid-template-columns: 1fr; }
+    .letter-aside { position: static; }
+    .track-header { flex-wrap: wrap; }
+    .track-num { font-size: 44px; }
+    .track-duration { margin-left: 0; }
+    .track-benefits { grid-template-columns: 1fr; }
+    .g-box { flex-direction: column; }
+    .g-icon { font-size: 44px; }
+    .price-now { font-size: 64px; }
+    .sig-row { flex-direction: column; text-align: center; }
+    .stop-device { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  ⚡ Advanced Meditators Only &nbsp;·&nbsp; Limited Availability &nbsp;·&nbsp; 365-Day Guarantee Included
+</div>
+
+<!-- ══════════════════════════ HERO ══════════════════════════ -->
+<section class="hero">
+  <div class="wrap-sm center">
+    <div class="hero-eyebrow">The World's Most Advanced Holosync Meditation Suite</div>
+
+    <h1 class="serif">Unlock the Deepest Levels<br>of <em>Your Mind</em></h1>
+
+    <p class="hero-sub">
+      Epsilon brainwaves are the rarest state the human brain can produce —
+      deeper than delta, glimpsed only by the world's most advanced meditators.
+      For the first time, you can access this state with the push of a button.
+    </p>
+
+    <!-- STOP DEVICE -->
+    <div class="stop-device">
+      <div class="stop-icon"><span>STOP</span></div>
+      <h2>This Is Not for Beginners</h2>
+      <p>Before you read further — this suite was engineered exclusively for advanced meditators who are ready to push the outermost edges of inner exploration. If that's you, read every word of this page. It may be the most important thing you encounter on your meditation journey.</p>
+      <p><strong>If you're new to Holosync, we recommend starting with Awakening Prologue.</strong> The Epsilon Edge is designed for those who have already built a serious foundation.</p>
+      <div class="stop-qualifiers">
+        <span class="stop-q"><span class="check">✓</span> Experienced meditator</span>
+        <span class="stop-q"><span class="check">✓</span> Prior Holosync experience preferred</span>
+        <span class="stop-q"><span class="check">✓</span> Ready for deep inner work</span>
+        <span class="stop-q"><span class="check">✓</span> Open to profound experiences</span>
+      </div>
+    </div>
+
+    <a href="#buy" class="cta-btn cta-violet">→ I'm Ready. Take Me to the Epsilon Edge</a>
+    <p style="font-size:13px; color:var(--ink-muted); margin-top:12px;">Or start for just $15 today with a payment plan</p>
+
+    <div class="trust-bar" style="margin-top:24px;">
+      <span>🔒 Secure Checkout</span>
+      <span>🛡️ 365-Day Guarantee</span>
+      <span>🧠 35 Years of Research</span>
+      <span>⚡ Instant Access</span>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-violet">
+
+<!-- ══════════════════════════ OPENING LETTER ══════════════════════════ -->
+<section class="letter-section">
+  <div class="wrap">
+    <div class="letter-grid">
+      <div class="letter-body">
+        <p>Dear Friend,</p>
+        <p>Let me be direct with you — because if you've made it this far, you deserve directness.</p>
+        <p>You already know what meditation can do. You've felt it — the clarity, the stillness, the moments of genuine insight that no amount of reading or thinking can produce. You've had a taste of what's possible at the deeper levels of your own mind.</p>
+        <p>But you've also hit a ceiling.</p>
+        <p>Not because you've done anything wrong. Not because you lack discipline or commitment. But because <strong>the standard tools of meditation — even advanced ones — cannot take you beyond a certain depth</strong> without decades of dedicated daily practice.</p>
+
+        <div class="pull-quote">
+          "The Epsilon state isn't a meditation goal. It's a different category of human experience entirely — and almost no one reaches it by conventional means."
+        </div>
+
+        <p>Epsilon brainwaves operate below 0.5 Hz — lower than delta, lower than anything most meditation technology has ever attempted to reach. They've been recorded in only the most advanced practitioners in the world: Tibetan masters with 40+ years of practice, individuals in states that neuroscientists describe as "near-cessation of ordinary consciousness."</p>
+        <p>The experiences associated with Epsilon are not subtle. Users report <strong>profound states of internal stillness, spontaneous insight, deep resolution of long-held emotional patterns, and a quality of peace that persists long after the session ends.</strong></p>
+        <p>We've spent years of research engineering a way to guide an experienced meditator's brain into this territory safely, reliably, and without requiring a lifetime of dedicated monastic practice.</p>
+        <p>The result is <strong>The Epsilon Edge Deep Brain Expansion Suite</strong> — and if you're ready for it, nothing else will compare.</p>
+      </div>
+
+      <div class="letter-aside">
+        <div class="aside-title">What Awaits You in Epsilon</div>
+        <div class="aside-item"><span class="icon">✦</span> A quality of stillness that ordinary meditation cannot reach</div>
+        <div class="aside-item"><span class="icon">✦</span> Spontaneous resolution of deep emotional patterns</div>
+        <div class="aside-item"><span class="icon">✦</span> Profound clarity that persists beyond the session</div>
+        <div class="aside-item"><span class="icon">✦</span> Integration of mind, body, and nervous system at depth</div>
+        <div class="aside-item"><span class="icon">✦</span> States of inner peace that advanced meditators spend decades seeking</div>
+        <div class="aside-item"><span class="icon">✦</span> A sense of expanded awareness that transforms how you move through the world</div>
+        <div style="margin-top:18px; padding-top:16px; border-top:1px solid var(--border); font-size:13px; color:var(--ink-muted); font-style:italic; line-height:1.6;">
+          These are not promises of mystical shortcuts. They are the documented experiences of advanced meditators who have used the Epsilon Edge suite with consistency and intention.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-thin">
+
+<!-- ══════════════════════════ EPSILON SCIENCE ══════════════════════════ -->
+<section class="science-section">
+  <div class="wrap">
+    <div class="center">
+      <div class="section-label">The Science</div>
+      <h2 class="section-title">Why Epsilon Is in a<br><em>Category of Its Own</em></h2>
+      <p style="color:var(--ink-muted); max-width:580px; margin:0 auto; font-size:16px;">
+        Epsilon brainwaves aren't just "deeper delta." They represent a fundamentally different mode of brain operation — one associated with the most profound states of human consciousness ever studied.
+      </p>
+    </div>
+
+    <div class="science-grid">
+      <div class="sci-card">
+        <div class="sci-icon">🌊</div>
+        <div class="sci-stat">&lt;0.5Hz</div>
+        <p class="sci-desc">The frequency range of Epsilon — below delta, below theta, below anything standard brainwave entrainment has previously targeted</p>
+      </div>
+      <div class="sci-card">
+        <div class="sci-icon">🧘</div>
+        <div class="sci-stat">40+yrs</div>
+        <p class="sci-desc">Average practice time for Tibetan masters whose brains naturally produce consistent Epsilon states during deep meditation</p>
+      </div>
+      <div class="sci-card">
+        <div class="sci-icon">🔬</div>
+        <div class="sci-stat">35yrs</div>
+        <p class="sci-desc">Of neuroscience and psychoacoustics research by Centerpointe to understand and engineer access to these rare brain states</p>
+      </div>
+      <div class="sci-card">
+        <div class="sci-icon">⚡</div>
+        <div class="sci-stat">20min</div>
+        <p class="sci-desc">Minimum session length — after which advanced meditators report measurable shifts in depth, clarity, and inner stillness</p>
+      </div>
+    </div>
+
+    <div class="tech-box">
+      <h3>🔧 About Lateral Carrier Boost 2.0 Technology</h3>
+      <p>Each track in the Epsilon Edge suite is built on Centerpointe's proprietary <strong>Lateral Carrier Boost 2.0 Technology</strong> — an advanced audio engineering framework that delivers brainwave entrainment signals through both hemispheres simultaneously, with precise phase relationships designed to maximize cross-hemisphere synchronization. Unlike standard binaural beats, LCB 2.0 uses layered carrier frequencies that guide the brain into ultra-low Epsilon states more efficiently and more comfortably than any previous approach. This is not an incremental improvement — it's a different class of technology entirely.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-violet">
+
+<!-- ══════════════════════════ WARNING ══════════════════════════ -->
+<section class="warning-section">
+  <div class="wrap center">
+    <div class="section-label">Before You Begin</div>
+    <h2 class="section-title">⚠️ A Note for <em>Serious Practitioners</em></h2>
+    <p style="color:var(--ink-muted); max-width:560px; margin:0 auto 4px; font-size:16px;">The Epsilon Edge produces real, deep neurological changes. Here's what some users experience — and how to navigate it:</p>
+
+    <div class="warning-box">
+      <h3>⚠️ What You May Experience</h3>
+      <ul class="warning-list">
+        <li><span class="wi">→</span> <div><strong>Vivid dreaming or enhanced dream recall</strong> — your brain is processing at deeper levels. This is a sign the technology is working and typically stabilizes within 2–3 weeks.</div></li>
+        <li><span class="wi">→</span> <div><strong>Temporary emotional surfacing</strong> — long-held patterns may rise to awareness to be released. This is the healing process. Our coaches are available to support you through it.</div></li>
+        <li><span class="wi">→</span> <div><strong>Periods of unusual mental quietness</strong> — some users describe a "reset" sensation. This is normal and typically gives way to a profound, stable clarity.</div></li>
+        <li><span class="wi">→</span> <div><strong>Heightened sensitivity</strong> — to emotions, to environments, to relationships. This deepens over time into a gift rather than a challenge.</div></li>
+      </ul>
+      <div class="warning-reassure">
+        None of these experiences are cause for concern — they are signs of genuine neurological deepening. Our dedicated support team and bi-weekly coaching letters are there for every step of your journey.
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-thin">
+
+<!-- ══════════════════════════ TRACKS ══════════════════════════ -->
+<section class="tracks-section">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:48px;">
+      <div class="section-label">The Suite</div>
+      <h2 class="section-title">Four Tracks. One <em>Complete System.</em></h2>
+      <p style="color:var(--ink-muted); max-width:560px; margin:0 auto; font-size:16px;">
+        Each track targets a distinct dimension of deep brain expansion — and together they form a complete, progressive system for reaching the outermost edges of meditative experience.
+      </p>
+    </div>
+
+    <!-- TRACK 1 -->
+    <div class="track-card">
+      <div class="track-header">
+        <div class="track-num">01</div>
+        <div>
+          <div class="track-label">Track One</div>
+          <div class="track-name">Epsilon Deep Brain Workout</div>
+          <div class="track-tagline">Your gateway into the Epsilon state</div>
+        </div>
+        <div class="track-duration">20 min</div>
+      </div>
+      <div class="track-body">
+        <div class="tech-callout">⚡ Lateral Carrier Boost 2.0 Technology</div>
+        <p class="track-desc">
+          Epsilon Deep Brain Workout is the foundational track — the one you return to daily to build your brain's capacity for Epsilon-level depth. Think of it as targeted resistance training for your neural networks. Rather than passively drifting into stillness, this track actively challenges your brain to synchronize at frequencies it has never consistently reached before, building new neural pathways with every session.
+        </p>
+        <ul class="track-benefits">
+          <li><span class="dot"></span>Build the neural foundation for all deeper Epsilon work</li>
+          <li><span class="dot"></span>Train cross-hemisphere synchronization at ultra-low frequencies</li>
+          <li><span class="dot"></span>Develop a stable, reliable gateway into deep meditative states</li>
+          <li><span class="dot"></span>Notice measurable improvements in focus and equanimity off the cushion</li>
+          <li><span class="dot"></span>Create the neurological conditions for spontaneous insight</li>
+          <li><span class="dot"></span>Build resilience, groundedness, and calm that compounds over time</li>
+        </ul>
+        <div class="track-testimonial">
+          <div class="stars">★★★★★</div>
+          <p class="t-quote">"I've been meditating for 22 years and have used every tool imaginable. The Deep Brain Workout goes somewhere none of them could. By week three I was entering states in my regular practice that I'd only touched twice in two decades."</p>
+          <div class="t-attrib">
+            <div class="t-avatar">R</div>
+            <div>
+              <div class="t-name">Robert H.</div>
+              <div class="t-loc">Santa Fe, NM · 22-year meditator</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRACK 2 -->
+    <div class="track-card">
+      <div class="track-header">
+        <div class="track-num">02</div>
+        <div>
+          <div class="track-label">Track Two</div>
+          <div class="track-name">Epsilon Whole Brain Harmonizer</div>
+          <div class="track-tagline">Complete integration of left and right hemispheres</div>
+        </div>
+        <div class="track-duration">20 min</div>
+      </div>
+      <div class="track-body">
+        <div class="tech-callout">⚡ Lateral Carrier Boost 2.0 Technology</div>
+        <p class="track-desc">
+          Most people move through life with their brain hemispheres operating in relative isolation — the analytical left and the intuitive right rarely in genuine synchrony. The Whole Brain Harmonizer uses precisely calibrated bilateral audio entrainment to dissolve that separation, creating a state of unified whole-brain coherence that most meditators describe as the closest thing to "operating from your full self."
+        </p>
+        <ul class="track-benefits">
+          <li><span class="dot"></span>Experience genuine whole-brain coherence — not just relaxation</li>
+          <li><span class="dot"></span>Access both analytical precision and deep intuitive wisdom simultaneously</li>
+          <li><span class="dot"></span>Dissolve inner conflict — the sense of being "at war with yourself"</li>
+          <li><span class="dot"></span>Make decisions with unprecedented clarity and confidence</li>
+          <li><span class="dot"></span>Feel integrated, whole, and internally unified</li>
+          <li><span class="dot"></span>Enter states of profound creative flow and insight</li>
+        </ul>
+        <div class="track-testimonial">
+          <div class="stars">★★★★★</div>
+          <p class="t-quote">"The Harmonizer does something I've never been able to achieve on my own — it gets both sides of my brain quiet and working together at the same time. The creative breakthroughs I've had during and after sessions are unlike anything I've experienced."</p>
+          <div class="t-attrib">
+            <div class="t-avatar">J</div>
+            <div>
+              <div class="t-name">Julia M.</div>
+              <div class="t-loc">Portland, OR · Architect &amp; Longtime Holosync User</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRACK 3 -->
+    <div class="track-card">
+      <div class="track-header">
+        <div class="track-num">03</div>
+        <div>
+          <div class="track-label">Track Three</div>
+          <div class="track-name">Epsilon Mind-Body Integration</div>
+          <div class="track-tagline">Dissolve the boundary between brain and nervous system</div>
+        </div>
+        <div class="track-duration">20 min</div>
+      </div>
+      <div class="track-body">
+        <div class="tech-callout">⚡ Lateral Carrier Boost 2.0 Technology</div>
+        <p class="track-desc">
+          Advanced meditators know that the deepest work isn't purely mental — it lives in the body, in the nervous system, in the places where thought and sensation meet. Epsilon Mind-Body Integration is specifically designed to entrain both the central and autonomic nervous systems simultaneously, creating a profound state of physical and mental stillness that allows the body's deepest intelligence to surface.
+        </p>
+        <ul class="track-benefits">
+          <li><span class="dot"></span>Release physical tension held in the nervous system for years</li>
+          <li><span class="dot"></span>Experience the body as deeply still, safe, and at rest</li>
+          <li><span class="dot"></span>Access somatic wisdom that the thinking mind routinely overrides</li>
+          <li><span class="dot"></span>Dissolve the chronic low-level activation of a stressed nervous system</li>
+          <li><span class="dot"></span>Create lasting improvements in sleep, digestion, and physical wellbeing</li>
+          <li><span class="dot"></span>Feel genuinely, deeply embodied — present in a way that's rare in modern life</li>
+        </ul>
+        <div class="track-testimonial">
+          <div class="stars">★★★★★</div>
+          <p class="t-quote">"I carry a lot of tension in my body from years of stress. After a month with Mind-Body Integration, my massage therapist asked me what I'd changed — she said my whole nervous system felt different. I hadn't changed anything else."</p>
+          <div class="t-attrib">
+            <div class="t-avatar">D</div>
+            <div>
+              <div class="t-name">David L.</div>
+              <div class="t-loc">Chicago, IL · Executive &amp; Advanced Meditator</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRACK 4 -->
+    <div class="track-card">
+      <div class="track-header">
+        <div class="track-num">04</div>
+        <div>
+          <div class="track-label">Track Four</div>
+          <div class="track-name">Threshold of the Void</div>
+          <div class="track-tagline">The deepest frontier of the Epsilon Edge suite</div>
+        </div>
+        <div class="track-duration">30 min</div>
+      </div>
+      <div class="track-body">
+        <div class="tech-callout">⚡ Lateral Carrier Boost 2.0 — Maximum Depth Protocol</div>
+        <p class="track-desc">
+          Threshold of the Void is the deepest track in the suite — and quite possibly the deepest brainwave entrainment experience available anywhere. At 30 minutes, it guides your brain through a precisely sequenced descent into the most profound Epsilon states, approaching the threshold of what neuroscientists call "the Void" — a state of pure awareness that sits beneath all thought, sensation, emotion, and identity.
+        </p>
+        <p class="track-desc" style="margin-top:-10px;">
+          This is where the most profound shifts happen. Long-held beliefs dissolve. Ancient emotional patterns release. A quality of peace arises that meditators describe as unlike anything they've encountered elsewhere — including years of retreat practice.
+        </p>
+        <ul class="track-benefits">
+          <li><span class="dot"></span>Touch the state of pure awareness beneath all thought and sensation</li>
+          <li><span class="dot"></span>Experience the spontaneous release of deep, long-held patterns</li>
+          <li><span class="dot"></span>Access a quality of peace and stillness that persists for days after</li>
+          <li><span class="dot"></span>Encounter insights that arrive without effort or seeking</li>
+          <li><span class="dot"></span>Return from sessions fundamentally — not just temporarily — changed</li>
+          <li><span class="dot"></span>Glimpse the awareness that advanced meditators describe as their truest self</li>
+        </ul>
+        <div class="track-testimonial">
+          <div class="stars">★★★★★</div>
+          <p class="t-quote">"I've been on three 10-day silent retreats. Threshold of the Void gave me an experience in 30 minutes that I spent years in silence trying to reach. I don't say that lightly. I've never recommended anything more strongly to my fellow practitioners."</p>
+          <div class="t-attrib">
+            <div class="t-avatar">C</div>
+            <div>
+              <div class="t-name">Caroline T.</div>
+              <div class="t-loc">Asheville, NC · Meditation Teacher</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-violet">
+
+<!-- ══════════════════════════ WHY DIFFERENT ══════════════════════════ -->
+<section class="different-section">
+  <div class="wrap">
+    <div class="center" style="margin-bottom: 8px;">
+      <div class="section-label">What Sets It Apart</div>
+      <h2 class="section-title">Why the Epsilon Edge Is <em>Unlike Anything Else</em></h2>
+    </div>
+
+    <div class="diff-grid">
+      <div class="diff-card">
+        <div class="diff-icon">🔬</div>
+        <div>
+          <div class="diff-title">Exclusively engineered Epsilon-range frequencies</div>
+          <div class="diff-desc">This isn't deeper delta. It's a categorically different frequency range that standard entrainment products have never successfully targeted.</div>
+        </div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">⚡</div>
+        <div>
+          <div class="diff-title">Built on Lateral Carrier Boost 2.0 Technology</div>
+          <div class="diff-desc">A fundamentally new audio architecture that delivers bilateral entrainment with a precision and depth that previous generations of technology couldn't achieve.</div>
+        </div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">🧠</div>
+        <div>
+          <div class="diff-title">Proven by 35 years of ongoing research</div>
+          <div class="diff-desc">Not a startup's first product — the result of decades of neuroscience, psychoacoustics, and direct user experience with 2.2 million practitioners.</div>
+        </div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">🛡️</div>
+        <div>
+          <div class="diff-title">Includes unlimited coaching support</div>
+          <div class="diff-desc">For the depth of work this suite enables, having an experienced guide matters. Our coaches are available whenever you need support, insight, or simply a listening ear.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-thin">
+
+<!-- ══════════════════════════ WHO IS THIS FOR ══════════════════════════ -->
+<section class="who-section">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:8px;">
+      <div class="section-label">Is This Right for You?</div>
+      <h2 class="section-title">Who the Epsilon Edge <em>Is — and Isn't — For</em></h2>
+    </div>
+
+    <div class="who-grid">
+      <div class="who-col yes">
+        <div class="who-col-title">✓ This is for you if...</div>
+        <div class="who-item"><span class="wi">✓</span> You have a consistent, serious meditation practice</div>
+        <div class="who-item"><span class="wi">✓</span> You've used Holosync or similar technology before</div>
+        <div class="who-item"><span class="wi">✓</span> You've hit a ceiling and want to go deeper</div>
+        <div class="who-item"><span class="wi">✓</span> You're open to profound, sometimes unexpected experiences</div>
+        <div class="who-item"><span class="wi">✓</span> You're willing to listen consistently for lasting results</div>
+        <div class="who-item"><span class="wi">✓</span> Long-term inner growth matters more to you than quick fixes</div>
+      </div>
+      <div class="who-col no">
+        <div class="who-col-title">✗ This is not for you if...</div>
+        <div class="who-item"><span class="wi">✗</span> You're new to meditation or Holosync</div>
+        <div class="who-item"><span class="wi">✗</span> You're looking for a casual, gentle introduction</div>
+        <div class="who-item"><span class="wi">✗</span> You want immediate, effortless results without commitment</div>
+        <div class="who-item"><span class="wi">✗</span> You're not prepared for deep emotional surfacing</div>
+        <div class="who-item"><span class="wi">✗</span> You have a history of serious psychological instability (please consult a professional first)</div>
+      </div>
+    </div>
+
+    <div style="background:var(--epsilon-bg); border:1px solid var(--epsilon-bd); border-radius:12px; padding:20px 26px; margin-top:28px; text-align:center; font-size:16px; color:var(--epsilon);">
+      <strong>New to Holosync?</strong> We recommend starting with <a href="#" style="color:var(--epsilon); font-weight:700;">Awakening Prologue</a> — the first step in the Holosync Solution Program. The Epsilon Edge will be here waiting when you're ready.
+    </div>
+  </div>
+</section>
+
+<hr class="rule-violet">
+
+<!-- ══════════════════════════ GUARANTEE ══════════════════════════ -->
+<section class="guarantee-section">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:8px;">
+      <div class="section-label">Zero Risk</div>
+      <h2 class="section-title">365-Day <em>Better-Than-Risk-Free</em> Guarantee</h2>
+    </div>
+
+    <div class="g-box">
+      <div class="g-icon">🛡️</div>
+      <div class="g-content">
+        <h3>A Full Year to Experience It</h3>
+        <p>Try all four tracks. Use them consistently. Bring your full, advanced-meditator seriousness to the practice. And if after 365 days the Epsilon Edge hasn't delivered the depth of experience we've described — return it for a complete refund.</p>
+        <p><strong>No questions. No justification required. No hassle.</strong> And you keep every piece of the program and all supporting materials as our gift — because we're confident you'll have received genuine value regardless.</p>
+        <p>After 35 years and 2.2 million practitioners, we know what Epsilon does to a prepared brain. Our only concern is that you're ready for it. If you are — we guarantee it will deliver.</p>
+        <div class="g-pills">
+          <span class="g-pill">✓ Full 365 days</span>
+          <span class="g-pill">✓ No questions asked</span>
+          <span class="g-pill">✓ Keep everything</span>
+          <span class="g-pill">✓ Prompt full refund</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-thin">
+
+<!-- ══════════════════════════ PRICE ══════════════════════════ -->
+<section id="buy" class="price-section">
+  <div class="wrap-sm center">
+    <div class="section-label">Your Investment</div>
+    <h2 class="section-title">Cutting-Edge Meditation <em>at a Remarkable Price</em></h2>
+
+    <div class="comp-box">
+      <h3>Consider What You're Getting</h3>
+      <table class="comp-table">
+        <tr class="crossed"><td>A single 10-day silent meditation retreat</td><td>$1,500–$5,000</td></tr>
+        <tr class="crossed"><td>Private meditation coaching — one month</td><td>$400–$1,200</td></tr>
+        <tr class="crossed"><td>Advanced brainwave entrainment programs elsewhere</td><td>$299–$499</td></tr>
+        <tr class="winner"><td><strong>All 4 Epsilon Tracks + Coaching + 365-Day Guarantee</strong></td><td>Only $79</td></tr>
+      </table>
+    </div>
+
+    <div class="urgency-box">
+      <strong>⏰ Every Day at the Surface Is a Day Away from the Depths</strong>
+      The ceiling you've hit isn't permanent — but it won't dissolve on its own. The Epsilon state is one decision away. Today is the best moment to make it.
+    </div>
+
+    <div class="price-card">
+      <div class="price-inner">
+        <div class="price-ladder">
+          <span class="price-cross">$499</span>
+          <span class="price-arrow">→</span>
+          <span class="price-cross">$249</span>
+          <span class="price-arrow">→</span>
+        </div>
+        <div class="price-now">$79</div>
+        <div class="price-sub">Or start for just $15 today with our easy payment plan</div>
+        <a href="#" class="cta-btn cta-violet" style="font-size:20px; padding:20px 50px;">→ I'm Ready. Unlock the Epsilon Edge</a>
+        <p style="font-size:13px; color:var(--ink-muted); margin-top:14px;">🔒 Secure Order &nbsp;·&nbsp; Instant Access &nbsp;·&nbsp; 365-Day Money-Back Guarantee</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-violet">
+
+<!-- ══════════════════════════ CLOSING ══════════════════════════ -->
+<section class="closing-section">
+  <div class="wrap-sm center">
+    <div class="section-label">The Threshold</div>
+    <h2 class="section-title">Most People Will Never<br><em>Walk Through This Door</em></h2>
+    <p>Not because they can't. Because they won't.</p>
+    <p>The depths of the Epsilon state are not reserved for monks or masters. They are available to any meditator who has built the foundation and is willing to go further.</p>
+    <p>You've done the work. You've built the foundation. The question is whether you're willing to take the next step — and let your brain go somewhere it has never been.</p>
+    <a href="#buy" class="cta-btn cta-violet" style="font-size:20px; padding:20px 50px; margin-top:10px;">→ I'm Ready. Unlock the Epsilon Edge</a>
+    <p style="font-size:13px; color:var(--ink-muted); margin-top:14px;">Or start for just $15 · 365-Day Guarantee · Instant Access</p>
+  </div>
+</section>
+
+<hr class="rule-thin">
+
+<!-- ══════════════════════════ PS ══════════════════════════ -->
+<section class="ps-section">
+  <div class="wrap">
+    <div class="sig-row">
+      <div class="sig-avatar">MT</div>
+      <div>
+        <div class="sig-name">MaryEllen Tribby</div>
+        <div class="sig-title">CEO, Centerpointe Research Institute</div>
+      </div>
+    </div>
+
+    <div style="margin-top:36px;">
+      <div class="ps-box">
+        <strong>P.S.</strong> — Can't do the full $79 right now? Start for just <strong>$15 today</strong> with our easy payment plan. The Epsilon state doesn't care how you got there — only that you arrived.
+      </div>
+      <div class="ps-box">
+        <strong>P.P.S.</strong> — Epsilon isn't just a frequency. It's a doorway. One that most people — even serious meditators — will never walk through, simply because they didn't know it was there, or didn't believe it was accessible to them. <em>It is. And now you know.</em> You have 365 days to find out — at absolutely no risk. The only thing standing between you and the deepest levels of your own mind is the decision to begin.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>©2025 <a href="#">Centerpointe Research Institute</a> &nbsp;·&nbsp; <a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms of Use</a></p>
+</footer>
+
+</body>
+</html>
